@@ -1,5 +1,6 @@
 package com.flareframe.viewmodels
 
+import androidx.lifecycle.ViewModel
 import com.flareframe.repositories.AuthRepostitory
 import com.flareframe.ui.states.RegisterUiState
 import com.flareframe.validation.inputValidation.Companion.validateEmail
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
-class RegistrationViewModel @Inject constructor(db: AuthRepostitory) {
+class RegistrationViewModel @Inject constructor(db: AuthRepostitory): ViewModel() {
     val _uiState = MutableStateFlow(RegisterUiState())
     val uiState: StateFlow<RegisterUiState> = _uiState.asStateFlow()
 
