@@ -3,16 +3,16 @@ package com.flareframe.models
 import com.google.firebase.Timestamp
 
 data class User(
-    val username: String = "",
-    val password: String = "",
-    val email: String = "",
-    val bio: String? = "",
+    val Username: String = "",
+
+    val Email: String = "",
+    val Bio: String? = "",
     val Pronouns: String? = "",
-    val created_at: Timestamp = Timestamp.now(),
-    val displayName: String = "",
+    val created_at: String = "",
+    val DisplayName: String = "",
     val isVerified: Boolean = false,
-    val paswordHash: String = "",
-    val followers: Int = 0,
-    val following: Int = 0,
+    val PasswordHash: String = "",
+    val Followers: Int = 0,
+    val Following: Int = 0,
 
     )

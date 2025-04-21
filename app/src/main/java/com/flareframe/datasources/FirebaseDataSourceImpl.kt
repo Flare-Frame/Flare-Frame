@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
+import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
 
 public class FirebaseDataSourceImpl @Inject constructor(val auth: FirebaseAuth): FirebaseDataSource {
@@ -14,7 +15,7 @@ public class FirebaseDataSourceImpl @Inject constructor(val auth: FirebaseAuth):
         password: String,
         callback: (Task<AuthResult>) -> Unit
     ) {
-        auth.signInWithEmailAndPassword(email, password)
+        auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task->
                 if(task.isSuccessful){
                     Log.d("Firebase","User has been successfully added!")

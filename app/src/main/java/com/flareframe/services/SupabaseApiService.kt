@@ -15,21 +15,21 @@ import retrofit2.http.Query
 interface SupabaseApiService {
     @GET("User")
     suspend fun getUsers(
-        @Header("Authorisation") authorisation: String,
+        @Header("Authorization") authorisation: String,
         @Header("apikey") apiKey: String ,
         @Query("select") select: String = "*",
     ): Response<List<User>>
 
-    @POST("User")
+      @POST("User")
     suspend fun createUser(
-        @Header("Authorisation") authorisation: String,
+        @Header("Authorization") authorisation: String,
         @Header("apikey") apikey:String,
         @Body user: User
-    )
+    ): Response<User>
 
     @GET
     suspend fun  getUser(
-        @Header("Authorisation") authorisation: String,
+        @Header("Authorization") authorisation: String,
         @Header("apikey") apikey: String,
         @Query("select") select: String = "*"
     )
