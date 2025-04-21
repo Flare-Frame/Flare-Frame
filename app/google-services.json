@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "215925384491",
+    "project_id": "flare-frame",
+    "storage_bucket": "flare-frame.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215925384491:android:170c9c5f3797491ecb916e",
+        "android_client_info": {
+          "package_name": "com.flareframe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWgmTEdDUhOpd5aUjVKHZumJc17DW0E98"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
