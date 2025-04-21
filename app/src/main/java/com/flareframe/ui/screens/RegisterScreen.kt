@@ -22,9 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,14 +32,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.flareframe.SnackbarController
 import com.flareframe.SnackbarEvent
 import com.flareframe.ui.states.RegisterUiState
+import com.flareframe.viewmodels.RegistrationViewModel
 
-import com.flareframe.ui.states.UserUiState
-import com.flareframe.viewmodels.UserViewModel
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier, userViewModel: UserViewModel = hiltViewModel(), onLogin:()-> Unit,onRegister:()-> Unit){
-   val uiState: UserUiState by userViewModel.uiState.collectAsStateWithLifecycle()
-
+fun RegisterScreen(
+    modifier: Modifier = Modifier,
+    viewModel: RegistrationViewModel = hiltViewModel(),
+    onNavigateToLogin: () -> Unit,
+    haveAnAccount: () -> Unit,
+) {
+    val uiState: RegisterUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
     val animatedColor by infiniteTransition.animateColor(
         initialValue = MaterialTheme.colorScheme.primary,
@@ -49,13 +50,26 @@ fun LoginScreen(modifier: Modifier = Modifier, userViewModel: UserViewModel = hi
         animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
         label = "color"
     )
+
     Box(modifier.fillMaxSize()) {
 
         if (uiState.inProgress)
             CircularProgressIndicator(Modifier.align(Alignment.Center))
 
     }
-    if(uiState.errorMessage.isNotEmpty()){
+    if (uiState.isRegistered == true) {
+
+        LaunchedEffect(uiState.isRegistered) {
+            // show a snack bar
+            SnackbarController.sendEvent(
+                event = SnackbarEvent(
+                    message = "You have successfully registered"
+                )
+            )
+            onNavigateToLogin()
+        }
+    }
+    if (uiState.errorMessage.isNotBlank()) {
         LaunchedEffect(uiState.errorMessage) {
             SnackbarController.sendEvent(
                 event = SnackbarEvent(
@@ -64,20 +78,15 @@ fun LoginScreen(modifier: Modifier = Modifier, userViewModel: UserViewModel = hi
             )
         }
     }
-    if (uiState.isLoggedin == true) {
 
-        LaunchedEffect(uiState.isLoggedin) {
-            // show a snack bar
-            SnackbarController.sendEvent(
-                event = SnackbarEvent(
-                    message = "Welcome back ${uiState.username}"
-                )
-            )
-            onLogin // add a real navigation here
-        }
-    }
-    Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally,  modifier = Modifier
-        .fillMaxSize()) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+
+    ) {
+
         Text(
             text = "Flare Frame",
             modifier = Modifier.padding(bottom = 60.dp),
@@ -85,44 +94,77 @@ fun LoginScreen(modifier: Modifier = Modifier, userViewModel: UserViewModel = hi
             fontSize = 30.sp,
             color = animatedColor,
         )
-      InputText(
-          modifier = Modifier.padding(bottom = 25.dp),
-          label = "Email",
-          onTextUpdate = {newText-> userViewModel.onEmailValueChange(newText)},
-          text = uiState.username,
-          imageVector = Icons.Outlined.AccountCircle,
-      )
+        InputText(
+            modifier = Modifier
+                .fillMaxWidth(0.78f)
+                .padding(bottom = 15.dp),
+            text = uiState.username,
+            onTextUpdate = { newText ->
+                viewModel.updateUsername(newText)
+            },
+            label = "Username",
+            imageVector = Icons.Outlined.AccountCircle,
+
+        )
+
+        InputText(
+            modifier = Modifier
+                .fillMaxWidth(0.78f)
+                .padding(bottom = 15.dp),
+            text = uiState.email,
+            onTextUpdate = { newText ->
+                viewModel.updateEmail(newText)
+            },
+            label = "Email",
+            imageVector = Icons.Outlined.AccountCircle,
+
+        )
         PassworInputText(
-            modifier = Modifier.padding(bottom = 25.dp),
-            label = "Password",
-            onTextUpdate = {newText-> userViewModel.onPasswordValueChange(newText)},
+            modifier = Modifier
+                .fillMaxWidth(0.78f)
+                .padding(bottom = 15.dp),
             text = uiState.password,
+            onTextUpdate = { newText ->
+                viewModel.updatePassword(newText)
+            },
+            label = "Password",
+
+        )
+        PassworInputText(
+            modifier = Modifier
+                .fillMaxWidth(0.78f)
+                .padding(bottom = 40.dp),
+            text = uiState.confirmPassword,
+            onTextUpdate = { newText ->
+                viewModel.updateConfirmPassword(newText)
+            },
+            label = "Confirm Password",
 
 
         )
-        Spacer(Modifier.padding(vertical = 20.dp))
         AppButton(
-            modifier = Modifier.fillMaxWidth(0.78f),
-            text = "Login"
-        ) {
-
-            userViewModel.onLogin()
-        }
+            text = "Register",
+            onClick = { viewModel.onRegister() },
+            modifier = Modifier
+                .padding(bottom = 15.dp)
+                .fillMaxWidth(0.78f)
+        )
         OutlinedButton(
             modifier = Modifier.fillMaxWidth(0.78f),
             onClick = {
 
-                onRegister()
+                onNavigateToLogin()
             }
-        ){
-            Text(text = "Don't have an account")
+        ) {
+            Text(text = "Already have an account")
         }
-
-        Spacer(Modifier.padding(vertical = 40.dp))
-
+        Spacer(Modifier.padding(30.dp))
         Text(
             text = "By Shravan Ramjathan",
             modifier = Modifier.clickable(enabled = true, onClick = {})
         )
     }
 }
+
+
+

@@ -1,5 +1,3 @@
 <resources>
     <string name="app_name">FlareFrame</string>
-    <string name="apikey">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmenZxbnFyam91eHV6YWNuZ3dhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ2NTg4NzUsImV4cCI6MjA2MDIzNDg3NX0.YlllghJ4GqEdSZpWtF8LJK3dU_vUHAquPPnXYfPCb9o</string>
-    <string name="Authorisation">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmenZxbnFyam91eHV6YWNuZ3dhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NDY1ODg3NSwiZXhwIjoyMDYwMjM0ODc1fQ.abNjEqGt2PeCivMkN_EAyQRoCZs91ZMycybEIAafmV8</string>
 </resources>

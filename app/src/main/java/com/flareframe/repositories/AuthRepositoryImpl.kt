@@ -7,11 +7,11 @@ import com.google.firebase.firestore.firestoreSettings
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
 
-@ActivityRetainedScoped
+
 class AuthRepositoryImpl @Inject  constructor(private val firebaseDataSource: FirebaseDataSource):
     AuthRepostitory {
     override fun LogIn(email: String, password: String, callback: (Task<AuthResult>) -> Unit) {
-       return firebaseDataSource.signInEmailAndPassword(email,password,callback)
+       return firebaseDataSource.signInEmailAndPassword(email = email,password = password,callback)
     }
 
     override fun LogOut() {
