@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="FlareFrame.app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-04-21T05:38:19.056296200Z">
+        <DropdownSelection timestamp="2025-04-22T14:15:00.369608500Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=7T5XH6PFZ5D6AA7D" />
