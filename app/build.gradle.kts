@@ -65,6 +65,9 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+     // below is for icons
+
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

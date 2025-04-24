@@ -32,15 +32,17 @@ public class FirebaseDataSourceImpl @Inject constructor(val auth: FirebaseAuth):
     override fun signInEmailAndPassword(
         email: String,
         password: String,
-        calback: (Task<AuthResult>) -> Unit
+        callback: (Task<AuthResult>) -> Unit
     ) {
         auth.signInWithEmailAndPassword(email,password)
             .addOnCompleteListener { task->
                 if(task.isSuccessful){
                     Log.d("Firebase","Successfully signed in user with email $email")
+                    callback(task)
                 }
                 else{
                     Log.w("Firebase","Invalid username or password!", task.exception)
+                    callback(task)
                 }
             }
     }
