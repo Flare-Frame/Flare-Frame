@@ -27,12 +27,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.flareframe.SnackbarController
 import com.flareframe.SnackbarEvent
 import com.flareframe.ui.states.RegisterUiState
 import com.flareframe.viewmodels.RegistrationViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 
 @Composable
@@ -66,6 +69,7 @@ fun RegisterScreen(
                     message = "You have successfully registered"
                 )
             )
+
             onNavigateToLogin()
         }
     }
