@@ -15,8 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.flareframe.ui.screens.AppButton
 import com.flareframe.ui.screens.AppScaffold
 import com.flareframe.ui.theme.FlareFrameTheme
+import com.flareframe.viewmodels.AuthViewModel
 import com.flareframe.viewmodels.RegistrationViewModel
-import com.flareframe.viewmodels.UserViewModel
+import com.flareframe.viewmodels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
 
@@ -40,9 +41,11 @@ class MainActivity : ComponentActivity() {
     @Serializable
     object Search
 
+    @Serializable
+    object Loading
     val viewmodel: RegistrationViewModel by viewModels()
-    val userViewModel: UserViewModel by viewModels()
-
+    val loginViewModel: LoginViewModel by viewModels()
+    val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +60,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    AppScaffold(userViewModel, viewmodel)
+                    AppScaffold(loginViewModel, viewmodel, authViewModel)
                 }
             }
         }

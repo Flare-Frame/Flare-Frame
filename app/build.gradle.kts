@@ -51,8 +51,8 @@ dependencies {
     val supabaseVersion = "0.8.0"
 // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-// Retrofit with Scalar Converter
-    implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
+
+
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
     implementation(platform("io.github.jan-tennert.supabase:bom:$supabaseVersion"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
