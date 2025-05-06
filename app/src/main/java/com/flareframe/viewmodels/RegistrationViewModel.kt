@@ -1,17 +1,16 @@
 package com.flareframe.viewmodels
 
+import android.R
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flareframe.models.User
-import com.flareframe.repositories.AuthRepostitory
+import com.flareframe.repositories.AuthRepository
 import com.flareframe.repositories.UserRepository
-import com.flareframe.services.TimstampUtils.convertFirebaseTimestampToTimestampZ
 import com.flareframe.ui.states.RegisterUiState
 import com.flareframe.validation.inputValidation.Companion.validateEmail
 import com.flareframe.validation.inputValidation.Companion.validatePassword
 import com.flareframe.validation.inputValidation.Companion.validateUsername
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -24,13 +23,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
-    private val db: AuthRepostitory,
+    private val db: AuthRepository,
     private val supabase: UserRepository,
 ) : ViewModel() {
-    private val apikey: String =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmenZxbnFyam91eHV6YWNuZ3dhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ2NTg4NzUsImV4cCI6MjA2MDIzNDg3NX0.YlllghJ4GqEdSZpWtF8LJK3dU_vUHAquPPnXYfPCb9o"
-    private val authKey: String =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmenZxbnFyam91eHV6YWNuZ3dhIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NDY1ODg3NSwiZXhwIjoyMDYwMjM0ODc1fQ.abNjEqGt2PeCivMkN_EAyQRoCZs91ZMycybEIAafmV8"
+
 
     val _uiState = MutableStateFlow(RegisterUiState())
     val uiState: StateFlow<RegisterUiState> = _uiState.asStateFlow()
@@ -60,19 +56,20 @@ class RegistrationViewModel @Inject constructor(
     }
 
 
-    fun registerSupabase(email: String, passwordHash: String, username: String) {
+    fun registerSupabase(email: String, username: String, uuId: String) {
         fetchJob?.cancel()
+
         fetchJob = viewModelScope.launch {
             val response = supabase.createUser(
                 User(
-                    created_at = convertFirebaseTimestampToTimestampZ(Timestamp.now()),
-                    Email = email,
-                    PasswordHash = passwordHash,
-                    Username = username
-                ), authorisation = authKey, apikey = apikey
+
+                    email = email,
+                    uuId = uuId,
+                    username = username
+                )
             )
-            if (!response.isSuccessful) {
-                Log.w("Supa", response.raw().toString())
+            if (!response.isSuccess) {
+                Log.w("Supabase", response.toString())
             }
         }
     }
@@ -94,7 +91,7 @@ class RegistrationViewModel @Inject constructor(
         }
     }
 
-    fun onRegister() {
+     fun onRegister() {
         _uiState.update { it.copy(inProgress = true, errorMessage = "") }
 
         val email = _uiState.value.email.trim()
@@ -141,8 +138,11 @@ class RegistrationViewModel @Inject constructor(
 
         db.signUp(email = email, password = password) { task ->
             if (task.isSuccessful) {
+
+                val uuId:String = task.result.user?.uid.toString()
                 Log.d("register", "$email has successfully registered.")
-                registerSupabase(email, password, username)
+                registerSupabase(email,  username,uuId)
+         db.LogOut()
                 _uiState.update { it.copy(isRegistered = true, inProgress = false) }
             } else {
                 val message = when (task.exception) {
@@ -153,4 +153,6 @@ class RegistrationViewModel @Inject constructor(
             }
         }
     }
+
+
 }

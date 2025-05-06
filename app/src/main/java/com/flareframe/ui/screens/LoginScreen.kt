@@ -5,7 +5,6 @@ import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,17 +32,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.flareframe.SnackbarController
 import com.flareframe.SnackbarEvent
-import com.flareframe.ui.states.UserUiState
-import com.flareframe.viewmodels.UserViewModel
+import com.flareframe.ui.states.LoginState
+import com.flareframe.viewmodels.LoginViewModel
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    userViewModel: UserViewModel = hiltViewModel(),
+    userViewModel: LoginViewModel = hiltViewModel(),
     onNavigateToHome: () -> Unit,
     onRegister: () -> Unit,
 ) {
-    val uiState: UserUiState by userViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState: LoginState by userViewModel.uiState.collectAsStateWithLifecycle()
 
     val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
     val animatedColor by infiniteTransition.animateColor(
@@ -58,6 +57,7 @@ fun LoginScreen(
             CircularProgressIndicator(Modifier.align(Alignment.Center))
 
     }
+
     if (uiState.errorMessage.isNotEmpty()) {
         LaunchedEffect(uiState.errorMessage) {
             SnackbarController.sendEvent(
@@ -68,18 +68,8 @@ fun LoginScreen(
         }
     }
 
+// check the gloabl ui state here
 
-        LaunchedEffect(uiState.isLoggedin) {
-            if (uiState.isLoggedin == true) {
-            // show a snack bar
-            SnackbarController.sendEvent(
-                event = SnackbarEvent(
-                    message = "Welcome back ${uiState.username}"
-                )
-            )
-            onNavigateToHome() // add a real navigation here
-        }
-    }
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,

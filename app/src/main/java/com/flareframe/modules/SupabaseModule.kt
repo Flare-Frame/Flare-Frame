@@ -1,34 +1,32 @@
 package com.flareframe.modules
 
 
-import com.flareframe.services.SupabaseApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
+import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.postgrest.Postgrest
 import javax.inject.Singleton
 
-private const val Base_URL = "https://dfzvqnqrjouxuzacngwa.supabase.co/rest/v1/"
+private const val Base_URL = "https://dfzvqnqrjouxuzacngwa.supabase.co"
+private const val key =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmenZxbnFyam91eHV6YWNuZ3dhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ2NTg4NzUsImV4cCI6MjA2MDIzNDg3NX0.YlllghJ4GqEdSZpWtF8LJK3dU_vUHAquPPnXYfPCb9o"
 
 @Module
 @InstallIn(SingletonComponent::class)
 object SupabaseModule {
 
-    @Provides
-    @Singleton
-    fun returnRetrofit(): Retrofit{
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(Base_URL)
-            .build()
-    }
 
     @Provides
     @Singleton
-    fun returnSupabaseAPI(retrofit: Retrofit): SupabaseApiService{
-        return retrofit.create(SupabaseApiService::class.java)
+    fun returnSupabaseClient(): SupabaseClient {
+        return createSupabaseClient(supabaseUrl = Base_URL, supabaseKey = key) {
+            install(Postgrest) {
+                defaultSchema = "public"
+
+            }
+        }
     }
 }
