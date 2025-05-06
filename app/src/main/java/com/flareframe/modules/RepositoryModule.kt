@@ -1,7 +1,7 @@
 package com.flareframe.modules
 
 import com.flareframe.repositories.AuthRepositoryImpl
-import com.flareframe.repositories.AuthRepostitory
+import com.flareframe.repositories.AuthRepository
 import com.flareframe.repositories.UserRepository
 import com.flareframe.repositories.UserRepositoryImpl
 import dagger.Binds
@@ -13,7 +13,7 @@ import dagger.hilt.android.components.ViewModelComponent
 @InstallIn(ViewModelComponent::class)
 abstract class RepositoryModule {
     @Binds
-    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepostitory
+    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
 
     @Binds
     abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository

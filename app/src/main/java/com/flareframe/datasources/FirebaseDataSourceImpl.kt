@@ -1,12 +1,15 @@
 package com.flareframe.datasources
 
 import android.util.Log
+import androidx.annotation.experimental.Experimental
 import androidx.compose.material3.rememberTopAppBarState
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.scopes.ActivityRetainedScoped
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 public class FirebaseDataSourceImpl @Inject constructor(val auth: FirebaseAuth): FirebaseDataSource {
@@ -32,20 +35,36 @@ public class FirebaseDataSourceImpl @Inject constructor(val auth: FirebaseAuth):
     override fun signInEmailAndPassword(
         email: String,
         password: String,
-        calback: (Task<AuthResult>) -> Unit
+        callback: (Task<AuthResult>) -> Unit
     ) {
         auth.signInWithEmailAndPassword(email,password)
             .addOnCompleteListener { task->
                 if(task.isSuccessful){
                     Log.d("Firebase","Successfully signed in user with email $email")
+                    callback(task)
                 }
                 else{
                     Log.w("Firebase","Invalid username or password!", task.exception)
+                    callback(task)
                 }
             }
     }
 
     override fun signOut() {
-        auth.signOut()
+       return auth.signOut()
     }
+
+    override suspend fun getUser(): FirebaseUser? {
+        var user: FirebaseUser? = auth.currentUser?:return null
+        return try{
+            user?.reload()?.await()
+            auth.currentUser
+        }catch (e: Exception){
+            auth.signOut()
+            null
+        }
+    }
+
+
+
 }

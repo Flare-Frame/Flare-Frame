@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="FlareFrame.app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-04-21T05:38:19.056296200Z">
+        <DropdownSelection timestamp="2025-05-05T08:44:02.707383900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=7T5XH6PFZ5D6AA7D" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\shrav\.android\avd\Pixel_9.avd" />
             </handle>
           </Target>
         </DropdownSelection>

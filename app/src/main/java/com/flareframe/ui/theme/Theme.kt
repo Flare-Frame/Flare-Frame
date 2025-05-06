@@ -94,13 +94,54 @@ val SupabaseDarkColors = darkColorScheme(
     error = Color(0xFFCF6679),
     onError = Color.Black
 )
+val PinkPurpleLightColors = lightColorScheme(
+    primary = Color(0xFFE91E63), // Pink
+    onPrimary = Color.White,
+    primaryContainer = Color(0xFFFFC1E3),
+    onPrimaryContainer = Color(0xFF52002C),
+
+    secondary = Color(0xFFBA68C8), // Light Purple
+    onSecondary = Color.White,
+    secondaryContainer = Color(0xFFE1BEE7),
+    onSecondaryContainer = Color(0xFF4A0072),
+
+    background = Color(0xFFFFF0F6),
+    onBackground = Color(0xFF1C1B1F),
+
+    surface = Color.White,
+    onSurface = Color(0xFF1C1B1F),
+
+    error = Color(0xFFB00020),
+    onError = Color.White
+)
+
+val PinkPurpleDarkColors = darkColorScheme(
+    primary = Color(0xFFEC407A), // Bright pink for dark
+    onPrimary = Color.Black,
+    primaryContainer = Color(0xFF880E4F),
+    onPrimaryContainer = Color.White,
+
+    secondary = Color(0xFFAB47BC), // Purple
+    onSecondary = Color.Black,
+    secondaryContainer = Color(0xFF6A1B9A),
+    onSecondaryContainer = Color.White,
+
+    background = Color(0xFF121212),
+    onBackground = Color(0xFFE0E0E0),
+
+    surface = Color(0xFF1E1E1E),
+    onSurface = Color(0xFFF0F0F0),
+
+    error = Color(0xFFCF6679),
+    onError = Color.Black
+)
 @Composable
 fun FlareFrameTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
     // Automatically picks dark or light based on system setting
-    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
+    val colorScheme = if (darkTheme) PinkPurpleDarkColors else PinkPurpleLightColors
 
     MaterialTheme(
         colorScheme = colorScheme,

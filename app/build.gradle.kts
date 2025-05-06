@@ -51,8 +51,8 @@ dependencies {
     val supabaseVersion = "0.8.0"
 // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
-// Retrofit with Scalar Converter
-    implementation ("com.squareup.retrofit2:converter-gson:2.11.0")
+
+
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
     implementation(platform("io.github.jan-tennert.supabase:bom:$supabaseVersion"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
@@ -65,6 +65,9 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+     // below is for icons
+
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
