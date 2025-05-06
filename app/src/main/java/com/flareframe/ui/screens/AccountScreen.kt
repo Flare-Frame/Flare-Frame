@@ -21,14 +21,16 @@ import coil3.compose.rememberAsyncImagePainter
 import coil3.compose.rememberConstraintsSizeResolver
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import com.flareframe.ui.states.RegisterUiState
-import com.flareframe.ui.states.UserUiState
-import com.flareframe.viewmodels.LoginViewModel
-import com.flareframe.viewmodels.UserViewModel
+
+import com.flareframe.ui.states.UserState
+
+import com.flareframe.viewmodels.AuthViewModel
+
+
 
 @Composable      // rename this
-fun AccountScreen(viewModel: UserViewModel, modifier: Modifier = Modifier.fillMaxSize()) {
-    val uiState: UserUiState by viewModel.userUiState.collectAsStateWithLifecycle() // add a new viewmodel for this
+fun AccountScreen(viewModel: AuthViewModel, modifier: Modifier = Modifier.fillMaxSize()) {
+    val uiState: UserState by viewModel.userState.collectAsStateWithLifecycle() // add a new viewmodel for this
     UserFlameCon(
         "https://images.app.goo.gl/XqHXg4HvwRrAoXqp7",
         contentDescription = "sfsdf",
