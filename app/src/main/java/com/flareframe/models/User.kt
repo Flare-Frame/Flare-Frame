@@ -1,11 +1,14 @@
 package com.flareframe.models
 
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.time.Clock
+import kotlinx.serialization.json.JsonIgnoreUnknownKeys
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
+@JsonIgnoreUnknownKeys
 data class User(
     @SerialName("Username")
     val username: String ,

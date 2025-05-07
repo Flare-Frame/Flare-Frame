@@ -19,8 +19,10 @@ import com.flareframe.viewmodels.AuthViewModel
 import com.flareframe.viewmodels.RegistrationViewModel
 import com.flareframe.viewmodels.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
-@kotlinx.serialization.ExperimentalSerializationApi
+
+@OptIn(ExperimentalSerializationApi::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Serializable

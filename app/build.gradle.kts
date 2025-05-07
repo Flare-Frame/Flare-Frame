@@ -46,6 +46,9 @@ android {
 kapt {
     correctErrorTypes = true
 }
+hilt {
+    enableAggregatingTask = true
+}
 dependencies {
     val ktorVersion = "2.3.9"
     val supabaseVersion = "0.8.0"
