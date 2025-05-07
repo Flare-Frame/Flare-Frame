@@ -54,6 +54,7 @@ dependencies {
 
 
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation(platform("io.github.jan-tennert.supabase:bom:$supabaseVersion"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation("com.google.dagger:hilt-android:2.51.1")
@@ -67,7 +68,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
      // below is for icons
 
-
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
