@@ -8,8 +8,7 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class FirebaseDataSourceImpl @Inject constructor(val auth: FirebaseAuth) :
-    FirebaseDataSource {
+class FirebaseDataSourceImpl @Inject constructor(val auth: FirebaseAuth) : FirebaseDataSource {
     override fun createUserEmailAndPassword(
         email: String,
         password: String,
@@ -55,7 +54,6 @@ class FirebaseDataSourceImpl @Inject constructor(val auth: FirebaseAuth) :
             auth.currentUser
         } catch (e: Exception) {
             auth.signOut()
-            Log.d("Firebase", "Unable to fetch current user", e)
             null
         }
     }

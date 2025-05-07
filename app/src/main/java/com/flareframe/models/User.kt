@@ -37,8 +37,7 @@ data class User(
     @SerialName("Pronouns")
     val pronouns: String?,
 
-//    @SerialName("Created_at")              // MADE PROGRESS, DO THE CHECK IF USERNAME EXISTS BEFORE CREATING IN FIREBASE, ELSE RETURN AND SHOW MESSAGE
-//    val createdAt: LocalDateTime?,
+
 
     @SerialName("DisplayName")
     val displayName: String?,

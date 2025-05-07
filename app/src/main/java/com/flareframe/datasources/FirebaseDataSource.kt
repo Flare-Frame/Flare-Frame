@@ -5,19 +5,19 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 
 interface FirebaseDataSource {
-    fun createUserEmailAndPassword(
+     fun createUserEmailAndPassword(
         email: String,
         password: String,
         callback: (Task<AuthResult>) -> Unit,
     )
 
-    fun signInEmailAndPassword(
+     fun signInEmailAndPassword(
         email: String,
         password: String,
         callback: (Task<AuthResult>) -> Unit,
     )
 
-    fun signOut()
+     fun signOut()
 
-    suspend fun getUser(): FirebaseUser?
+      suspend fun getUser(): FirebaseUser?
 }

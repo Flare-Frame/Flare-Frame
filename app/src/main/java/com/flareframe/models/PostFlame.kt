@@ -1,21 +1,25 @@
 package com.flareframe.models
 
 import kotlinx.datetime.LocalDateTime
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.io.Serial
+import kotlinx.serialization.json.JsonIgnoreUnknownKeys
+
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
+@JsonIgnoreUnknownKeys
 data class PostFlame(
 
     @SerialName("PostFlameId")
-    val postFlameId:String = "",
+    val postFlameId: String,
 
     @SerialName("Created_at")
-    val createdAt: LocalDateTime? = null,
+    val createdAt: LocalDateTime?,
 
     @SerialName("PostId")
-    val postId:String = "",
+    val postId: String,
 
     @SerialName("Username")
-    val username:String = "",
+    val username: String,
 )
