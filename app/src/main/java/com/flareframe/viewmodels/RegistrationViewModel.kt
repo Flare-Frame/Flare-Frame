@@ -105,17 +105,19 @@ class RegistrationViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(inProgress = true, errorMessage = "") }
 
-            val email    = uiState.value.email.trim()
+            val email = uiState.value.email.trim()
             val username = uiState.value.username.trim()
             val password = uiState.value.password
-            val confirm  = uiState.value.confirmPassword
+            val confirm = uiState.value.confirmPassword
 
             // 1) Your local validation checks…
             if (email.isEmpty() || username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
                 updateErrorMessage("Please fill in all fields!")
                 return@launch
             }
-            if (!validateEmail(email))    { updateErrorMessage("Invalid email address"); return@launch }
+            if (!validateEmail(email)) {
+                updateErrorMessage("Invalid email address"); return@launch
+            }
             if (!validateUsername(username)) {
                 updateErrorMessage("Username must have …"); return@launch
             }
@@ -139,18 +141,19 @@ class RegistrationViewModel @Inject constructor(
                     val uid = task.result.user?.uid.orEmpty()
 
 
-                        registerSupabase(email, username, uid)
-                        db.LogOut()
-                        _uiState.update { it.copy(isRegistered = true, inProgress = false) }
+                    registerSupabase(email, username, uid)
+                    db.LogOut()
+                    _uiState.update { it.copy(isRegistered = true, inProgress = false) }
 
                 } else {
-                    updateErrorMessage((task.exception as? FirebaseAuthUserCollisionException)
-                        ?.message ?: "Unable to register user")
+                    updateErrorMessage(
+                        (task.exception as? FirebaseAuthUserCollisionException)
+                            ?.message ?: "Unable to register user"
+                    )
                 }
             }
         }
     }
-
 
 
     fun resetState() {
