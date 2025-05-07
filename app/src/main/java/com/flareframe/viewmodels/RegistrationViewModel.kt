@@ -1,6 +1,6 @@
 package com.flareframe.viewmodels
 
-import android.R
+
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -57,15 +57,25 @@ class RegistrationViewModel @Inject constructor(
 
 
     fun registerSupabase(email: String, username: String, uuId: String) {
-        fetchJob?.cancel()
 
-        fetchJob = viewModelScope.launch {
+
+        viewModelScope.launch {
+
             val response = supabase.createUser(
                 User(
 
                     email = email,
                     uuId = uuId,
-                    username = username
+                    username = username,
+                    profilePicUrl = "https://dfzvqnqrjouxuzacngwa.supabase.co/storage/v1/object/public/profile-picture//DefaultPic.png",
+                    isVerified = false,
+                    deleted = false,
+                    visibility = true,
+                    deletedAt = null,
+                    bio = "Add a bio :)",
+                    pronouns = "",
+
+                    displayName = "",
                 )
             )
             if (!response.isSuccess) {
@@ -91,68 +101,72 @@ class RegistrationViewModel @Inject constructor(
         }
     }
 
-     fun onRegister() {
-        _uiState.update { it.copy(inProgress = true, errorMessage = "") }
+    fun onRegister() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(inProgress = true, errorMessage = "") }
 
-        val email = _uiState.value.email.trim()
-        val username = _uiState.value.username.trim()
-        val password = _uiState.value.password
-        val confirm = _uiState.value.confirmPassword
+            val email = uiState.value.email.trim()
+            val username = uiState.value.username.trim()
+            val password = uiState.value.password
+            val confirm = uiState.value.confirmPassword
 
-
-        if (email.isEmpty() || username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
-            updateErrorMessage("Please fill in all fields!")
-            return
-        }
-
-
-        if (!validateEmail(email)) {
-            updateErrorMessage("Invalid email address")
-            return
-        }
-
-
-        if (!validateUsername(username)) {
-            updateErrorMessage("Username must have at least: 6 characters, 1 uppercase letter, and may include '_' or '.'")
-            return
-        }
-
-
-        if (!validatePassword(password)) {
-            updateErrorMessage("Password must have at least: 8 characters, 1 uppercase letter, and one of !@#$%^&*")
-            return
-        }
+            // 1) Your local validation checks…
+            if (email.isEmpty() || username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
+                updateErrorMessage("Please fill in all fields!")
+                return@launch
+            }
+            if (!validateEmail(email)) {
+                updateErrorMessage("Invalid email address"); return@launch
+            }
+            if (!validateUsername(username)) {
+                updateErrorMessage("Username must have …"); return@launch
+            }
+            if (!validatePassword(password)) {
+                updateErrorMessage("Password must have …"); return@launch
+            }
+            if (password != confirm) {
+                updateErrorMessage("Passwords do not match!"); return@launch
+            }
 
 
-        if (!validatePassword(confirm)) {
-            updateErrorMessage("Confirm password must meet the same requirements as password")
-            return
-        }
+            val existing = supabase.fetchUserWithUsername(username)
+            if (existing != null) {
+                updateErrorMessage("Username already exists")
+                return@launch
+            }
 
 
-        if (password != confirm) {
-            updateErrorMessage("Passwords do not match!")
-            return
-        }
+            db.signUp(email, password) { task ->
+                if (task.isSuccessful) {
+                    val uid = task.result.user?.uid.orEmpty()
 
 
-        db.signUp(email = email, password = password) { task ->
-            if (task.isSuccessful) {
+                    registerSupabase(email, username, uid)
+                    db.LogOut()
+                    _uiState.update { it.copy(isRegistered = true, inProgress = false) }
 
-                val uuId:String = task.result.user?.uid.toString()
-                Log.d("register", "$email has successfully registered.")
-                registerSupabase(email,  username,uuId)
-         db.LogOut()
-                _uiState.update { it.copy(isRegistered = true, inProgress = false) }
-            } else {
-                val message = when (task.exception) {
-                    is FirebaseAuthUserCollisionException -> "Email already exists"
-                    else -> "Unable to register user: ${task.exception?.localizedMessage.orEmpty()}"
+                } else {
+                    updateErrorMessage(
+                        (task.exception as? FirebaseAuthUserCollisionException)
+                            ?.message ?: "Unable to register user"
+                    )
                 }
-                updateErrorMessage(message)
             }
         }
     }
 
 
+    fun resetState() {
+        _uiState.update {
+            it.copy(
+                isRegistered = false,
+                username = "",
+                password = "",
+                confirmPassword = "",
+                email = "",
+                errorMessage = "",
+                inProgress = false
+            )
+        }
+    }
 }

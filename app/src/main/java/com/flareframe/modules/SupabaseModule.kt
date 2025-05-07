@@ -8,6 +8,9 @@ import dagger.hilt.components.SingletonComponent
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
+import kotlinx.serialization.json.Json
+
+
 import javax.inject.Singleton
 
 private const val Base_URL = "https://dfzvqnqrjouxuzacngwa.supabase.co"
@@ -23,10 +26,15 @@ object SupabaseModule {
     @Singleton
     fun returnSupabaseClient(): SupabaseClient {
         return createSupabaseClient(supabaseUrl = Base_URL, supabaseKey = key) {
+
+
             install(Postgrest) {
                 defaultSchema = "public"
-
+                Json { ignoreUnknownKeys = true }
             }
+
+
+
         }
     }
 }
