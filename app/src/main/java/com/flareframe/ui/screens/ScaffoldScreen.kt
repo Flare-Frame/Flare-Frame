@@ -123,7 +123,7 @@ fun AppScaffold(
                             popUpTo(0){inclusive=true}
                         }
                     },
-                    haveAnAccount = { navController.navigate(route = Login) }
+
 
                 )  // add logic for home page
             }

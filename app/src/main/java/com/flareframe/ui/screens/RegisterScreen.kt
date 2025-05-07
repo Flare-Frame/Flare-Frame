@@ -43,7 +43,7 @@ fun RegisterScreen(
     modifier: Modifier = Modifier,
     viewModel: RegistrationViewModel = hiltViewModel(),
     onNavigateToLogin: () -> Unit,
-    haveAnAccount: () -> Unit,
+
 ) {
     val uiState: RegisterUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
@@ -69,7 +69,7 @@ fun RegisterScreen(
                     message = "You have successfully registered"
                 )
             )
-
+      viewModel.resetState()
             onNavigateToLogin()
         }
     }

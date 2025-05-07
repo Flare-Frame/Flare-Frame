@@ -46,6 +46,9 @@ android {
 kapt {
     correctErrorTypes = true
 }
+hilt {
+    enableAggregatingTask = true
+}
 dependencies {
     val ktorVersion = "2.3.9"
     val supabaseVersion = "0.8.0"
@@ -54,6 +57,7 @@ dependencies {
 
 
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
     implementation(platform("io.github.jan-tennert.supabase:bom:$supabaseVersion"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation("com.google.dagger:hilt-android:2.51.1")
@@ -66,8 +70,10 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
      // below is for icons
-
-
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    // this will allow us to create .await() on the functions
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

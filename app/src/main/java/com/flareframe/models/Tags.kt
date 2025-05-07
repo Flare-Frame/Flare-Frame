@@ -1,19 +1,17 @@
 package com.flareframe.models
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonIgnoreUnknownKeys
 
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
+@JsonIgnoreUnknownKeys
 data class Tags(
     @SerialName("TagId")
-    val tagId: String = "",
+    val tagId: String ,
 
     @SerialName("Tag")
-    val tag: String = "",
-
-    @SerialName("Created_at")
-    val createdAt: String = "",
-
-    @SerialName("PostId")
-    val postId: String = "",
+    val tag: String
 )
