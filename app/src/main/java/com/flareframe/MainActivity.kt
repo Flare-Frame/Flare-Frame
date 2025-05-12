@@ -1,6 +1,7 @@
 package com.flareframe
 
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,12 +13,17 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.flareframe.ui.screens.AppButton
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.flareframe.services.Camera
+
 import com.flareframe.ui.screens.AppScaffold
+
 import com.flareframe.ui.theme.FlareFrameTheme
 import com.flareframe.viewmodels.AuthViewModel
-import com.flareframe.viewmodels.RegistrationViewModel
 import com.flareframe.viewmodels.LoginViewModel
+import com.flareframe.viewmodels.RegistrationViewModel
+import com.flareframe.viewmodels.UploadPostViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
@@ -45,13 +51,28 @@ class MainActivity : ComponentActivity() {
 
     @Serializable
     object Loading
+
+    @Serializable
+    object CameraScreen
+    @Serializable
+    object MediaPreview
+
     val viewmodel: RegistrationViewModel by viewModels()
     val loginViewModel: LoginViewModel by viewModels()
     val authViewModel: AuthViewModel by viewModels()
+    val uploadPostViewModel: UploadPostViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        if (!hasRequiredPermissions()) {
+            ActivityCompat.requestPermissions(
+                this,
+                Camera.CAMERAX_PERMISSIONS,
+                0  // we are setting it to default that they allow it
+            )
+        }
+
         setContent {
             FlareFrameTheme {
 
@@ -62,17 +83,26 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 
-                    AppScaffold(loginViewModel, viewmodel, authViewModel)
+                    AppScaffold(loginViewModel, viewmodel, authViewModel,uploadPostViewModel, applicationContext)
                 }
             }
         }
     }
 
-}
-    @Preview(showBackground = true)
-    @Composable
-    fun GreetingPreview() {
-        FlareFrameTheme {
-            AppButton(text = "jk", onClick = {})
+    private fun hasRequiredPermissions(): Boolean {     // we need to check if accepted
+        return Camera.CAMERAX_PERMISSIONS.all {
+            ContextCompat.checkSelfPermission(
+                applicationContext!!,
+                it
+            ) == PackageManager.PERMISSION_GRANTED
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    FlareFrameTheme {
+
+    }
+}

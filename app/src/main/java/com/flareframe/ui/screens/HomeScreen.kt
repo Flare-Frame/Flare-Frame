@@ -1,5 +1,6 @@
 package com.flareframe.ui.screens
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -13,6 +14,6 @@ fun HomeScreen(
     loginViewModel: LoginViewModel,
 ) {
     val uiState: LoginState by loginViewModel.uiState.collectAsState()
-
+    Text(text = "Hello world")
 
 }

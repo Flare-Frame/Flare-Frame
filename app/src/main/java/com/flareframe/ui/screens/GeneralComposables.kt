@@ -2,35 +2,31 @@
 
 package com.flareframe.ui.screens
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Tag
 import androidx.compose.material.icons.outlined.AccountBox
-import androidx.compose.material.icons.outlined.AddCircle
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.BottomAppBarDefaults
+import androidx.compose.material.icons.twotone.Cancel
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.InputChip
+import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -51,7 +47,6 @@ import com.flareframe.MainActivity.Home
 import com.flareframe.MainActivity.Search
 import com.flareframe.MainActivity.Upload
 import com.flareframe.ui.navBar.BottomNavigationItem
-
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @Composable
@@ -82,7 +77,26 @@ fun AppButton(modifier: Modifier = Modifier, text: String, onClick: () -> Unit) 
 }
 
 @Composable
-fun InputText(
+fun HashTagChip(
+    hashTag: String,
+    onRemove: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    InputChip(
+        onClick = {onRemove() },
+        label = { Text(hashTag) },
+        modifier = modifier,
+        selected = true,
+
+        trailingIcon = {
+            Icon(Icons.TwoTone.Cancel, contentDescription = "Cancel button")
+
+        }
+    )
+}
+
+@Composable
+fun AuthInputText(
     modifier: Modifier = Modifier,
     label: String,
     onTextUpdate: (String) -> Unit,
@@ -135,9 +149,10 @@ fun PassworInputText(
 
         )
 }
+
 @ExperimentalSerializationApi
 @Composable
-fun AppBottomBar(navController: NavController){
+fun AppBottomBar(navController: NavController) {
     // createing a list of nav items
     val items = listOf(
         BottomNavigationItem(
@@ -160,7 +175,7 @@ fun AppBottomBar(navController: NavController){
             title = "Upload",
             route = Upload,
             selectedIcon = Icons.Filled.AddCircle,
-            unselectedIcon = Icons.Outlined.AddCircle,
+            unselectedIcon = Icons.Outlined.Add,
             hasNotis = false,
             badgeCount = null
         ),
@@ -196,3 +211,4 @@ fun AppBottomBar(navController: NavController){
         }
     }
 }
+
