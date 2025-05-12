@@ -20,7 +20,8 @@ data class Post(
 
     @SerialName("Caption")
     val caption: String,
-
+    @SerialName("Hide_Tags")
+    val hideTags: Boolean,
     @SerialName("Archived")
     val archived: Boolean,
 
