@@ -26,6 +26,6 @@ data class Post(
     val archived: Boolean,
 
 
-    @SerialName("Archived_at")
+    @SerialName("archived_at")
     val archivedAt: LocalDateTime?,
 )

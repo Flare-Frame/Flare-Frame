@@ -2,14 +2,13 @@
 
 package com.flareframe.ui.screens
 
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Tag
 import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Home
@@ -19,14 +18,12 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.InputChip
-import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.OutlinedSecureTextField
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,11 +32,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.flareframe.MainActivity.Account
@@ -83,7 +81,7 @@ fun HashTagChip(
     modifier: Modifier = Modifier,
 ) {
     InputChip(
-        onClick = {onRemove() },
+        onClick = { onRemove() },
         label = { Text(hashTag) },
         modifier = modifier,
         selected = true,
@@ -96,23 +94,21 @@ fun HashTagChip(
 }
 
 @Composable
-fun AuthInputText(
+fun InputText(
     modifier: Modifier = Modifier,
     label: String,
-    onTextUpdate: (String) -> Unit,
-    text: String,
     imageVector: ImageVector?,
-
-    ) {
+    contentType: ContentType,
+    inputState: TextFieldState,
+) {
     val gradientColors =
         listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)
     val brush = remember { Brush.linearGradient(colors = gradientColors) }
     OutlinedTextField(
-        value = text,
-        maxLines = 1,
+        state = inputState,
         placeholder = { Text(label) },
-        onValueChange = { newVal -> onTextUpdate(newVal) },
-        modifier = modifier,
+        lineLimits = TextFieldLineLimits.SingleLine,  // new way to limit line size
+        modifier = modifier.semantics { this.contentType = contentType },
         textStyle = TextStyle(brush = brush),
         trailingIcon = {
             Icon(
@@ -126,28 +122,25 @@ fun AuthInputText(
 }
 
 @Composable
-fun PassworInputText(
+fun PasswordInputText(
     modifier: Modifier = Modifier,
     label: String,
-    onTextUpdate: (String) -> Unit,
-    text: String,
+    inputState: TextFieldState,
+    contentType: ContentType,
+) {
 
-    ) {
     val gradientColors =
         listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)
     val brush = remember { Brush.linearGradient(colors = gradientColors) }
-    OutlinedTextField(
-        value = text,
-        maxLines = 1,
+    OutlinedSecureTextField(
+        state = inputState,
         placeholder = { Text(label) },
-        onValueChange = { newVal -> onTextUpdate(newVal) },
-        modifier = modifier,
+        modifier = modifier.semantics { contentType },
         textStyle = TextStyle(brush = brush),
-        visualTransformation = PasswordVisualTransformation(), // this is how to give it the look of a password
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        // this is how to give it the look of a password
 
 
-        )
+    )
 }
 
 @ExperimentalSerializationApi

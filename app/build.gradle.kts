@@ -54,8 +54,11 @@ hilt {
 dependencies {
     val ktorVersion = "2.3.9"
     val supabaseVersion = "0.8.0"
+    val composeBom = platform("androidx.compose:compose-bom:2025.05.00")
+    implementation(composeBom)
+    implementation("androidx.compose.material3:material3:1.4.0-alpha11")
 // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
 
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")

@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="FlareFrame.app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-05-08T23:55:00.853348500Z">
+        <DropdownSelection timestamp="2025-05-26T06:42:43.087041200Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\shrav\.android\avd\Medium_Phone.avd" />
