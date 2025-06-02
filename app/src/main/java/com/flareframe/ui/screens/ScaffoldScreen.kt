@@ -125,9 +125,7 @@ fun AppScaffold(
                 LoginScreen(
                     modifier = Modifier,
                     userViewModel = loginViewModel,
-                    onNavigateToHome = {
-                        navController.navigate(route = Home)
-                    },
+
                     onRegister = { navController.navigate(route = Register) })   // add logic for home page
             }
             composable<Loading> { LoadingScreen() }
