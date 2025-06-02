@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -52,8 +54,11 @@ hilt {
 dependencies {
     val ktorVersion = "2.3.9"
     val supabaseVersion = "0.8.0"
+    val composeBom = platform("androidx.compose:compose-bom:2025.05.00")
+    implementation(composeBom)
+    implementation("androidx.compose.material3:material3:1.4.0-alpha11")
 // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
 
     implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
@@ -78,6 +83,26 @@ dependencies {
     // used for profile pictures
     implementation("io.coil-kt.coil3:coil-compose:3.1.0")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.1.0")
+
+    // will use this for all icons
+    implementation("androidx.compose.material:material-icons-extended")
+    // CameraX core library using the camera2 implementation
+    // Remember to add streaming for video calls, refer to documentation
+  //  https://developer.android.com/media/camera/camerax/architecture#dependencies
+    val camerax_version = "1.5.0-beta01"
+    // The following line is optional, as the core library is included indirectly by camera-camera2
+    implementation("androidx.camera:camera-core:${camerax_version}")
+    implementation ("androidx.camera:camera-camera2:${camerax_version}")
+    // If you want to additionally use the CameraX Lifecycle library
+    implementation( "androidx.camera:camera-lifecycle:${camerax_version}")
+    // If you want to additionally use the CameraX VideoCapture library
+    implementation ("androidx.camera:camera-video:${camerax_version}")
+    // If you want to additionally use the CameraX View class
+    implementation( "androidx.camera:camera-view:${camerax_version}")
+    // If you want to additionally add CameraX ML Kit Vision Integration
+    implementation ("androidx.camera:camera-mlkit-vision:${camerax_version}")
+    // If you want to additionally use the CameraX Extensions library
+    implementation ("androidx.camera:camera-extensions:${camerax_version}")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
