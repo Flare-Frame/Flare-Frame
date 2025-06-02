@@ -2,6 +2,8 @@ package com.flareframe.modules
 
 import com.flareframe.repositories.AuthRepositoryImpl
 import com.flareframe.repositories.AuthRepository
+import com.flareframe.repositories.PostRepository
+import com.flareframe.repositories.PostRepositoryImpl
 import com.flareframe.repositories.UserRepository
 import com.flareframe.repositories.UserRepositoryImpl
 import dagger.Binds
@@ -17,4 +19,7 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
+
+    @Binds
+    abstract  fun bindPostRepository(postRepositoryImpl: PostRepositoryImpl): PostRepository
 }

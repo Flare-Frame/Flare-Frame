@@ -2,6 +2,8 @@ package com.flareframe.viewmodels
 
 
 import android.util.Log
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.clearText
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.flareframe.models.User
@@ -30,30 +32,16 @@ class RegistrationViewModel @Inject constructor(
 
     val _uiState = MutableStateFlow(RegisterUiState())
     val uiState: StateFlow<RegisterUiState> = _uiState.asStateFlow()
+
+    val username = TextFieldState()
+    val password = TextFieldState()
+    val confirmPassword = TextFieldState()
+    val email = TextFieldState()
     private var fetchJob: Job? = null
-    fun updateEmail(email: String) {
-        _uiState.update { currentState ->
-            currentState.copy(email = email)
-        }
-    }
 
-    fun updateUsername(username: String) {
-        _uiState.update { currentState ->
-            currentState.copy(username = username)
-        }
-    }
 
-    fun updatePassword(password: String) {
-        _uiState.update { currentState ->
-            currentState.copy(password = password)
-        }
-    }
 
-    fun updateConfirmPassword(confirmPassword: String) {
-        _uiState.update { currentState ->
-            currentState.copy(confirmPassword = confirmPassword)
-        }
-    }
+
 
 
     fun registerSupabase(email: String, username: String, uuId: String) {
@@ -87,12 +75,12 @@ class RegistrationViewModel @Inject constructor(
     fun updateErrorMessage(errorMessage: String) {
         fetchJob?.cancel()
         fetchJob = viewModelScope.launch {
+            username.clearText()
+            password.clearText()
+            confirmPassword.clearText()
+            email.clearText()
             _uiState.update { currentState ->
                 currentState.copy(
-                    username = "",
-                    password = "",
-                    confirmPassword = "",
-                    email = "",
                     errorMessage = errorMessage,
                     inProgress = false,
                     isRegistered = false
@@ -105,10 +93,10 @@ class RegistrationViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(inProgress = true, errorMessage = "") }
 
-            val email = uiState.value.email.trim()
-            val username = uiState.value.username.trim()
-            val password = uiState.value.password
-            val confirm = uiState.value.confirmPassword
+            val email = email.text.toString().trim()
+            val username: String = username.text.toString().trim()
+            val password = password.toString()
+            val confirm = confirmPassword.toString()
 
             // 1) Your local validation checks…
             if (email.isEmpty() || username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
@@ -157,13 +145,13 @@ class RegistrationViewModel @Inject constructor(
 
 
     fun resetState() {
+        username.clearText()
+        password.clearText()
+        confirmPassword.clearText()
+        email.clearText()
         _uiState.update {
             it.copy(
                 isRegistered = false,
-                username = "",
-                password = "",
-                confirmPassword = "",
-                email = "",
                 errorMessage = "",
                 inProgress = false
             )

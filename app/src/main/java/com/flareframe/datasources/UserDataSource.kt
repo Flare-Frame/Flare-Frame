@@ -7,5 +7,6 @@ interface UserDataSource {
     suspend fun updateUsername(newUsername: String,currentUsername: String): Result<User>
     suspend fun fetchUserWithUUID(uuId: String): User?
     suspend fun fetchUserWithUsername(username: String): User?
+    suspend fun fetchUserWithEmail(email: String): User?
     suspend fun fetchUserWithDisplayName(displayName: String): User?
 }
