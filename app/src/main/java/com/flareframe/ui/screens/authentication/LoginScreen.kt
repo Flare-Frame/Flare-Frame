@@ -9,7 +9,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -47,7 +46,6 @@ import com.flareframe.SnackbarController
 import com.flareframe.SnackbarEvent
 import com.flareframe.ui.screens.AppButton
 import com.flareframe.ui.screens.InputText
-import com.flareframe.ui.screens.PasswordInputText
 import com.flareframe.ui.states.LoginState
 import com.flareframe.viewmodels.LoginViewModel
 
@@ -56,7 +54,6 @@ import com.flareframe.viewmodels.LoginViewModel
 fun LoginScreen(
     modifier: Modifier = Modifier,
     userViewModel: LoginViewModel = hiltViewModel(),
-    onNavigateToHome: () -> Unit,
     onRegister: () -> Unit,
 ) {
     val uiState: LoginState by userViewModel.uiState.collectAsStateWithLifecycle()

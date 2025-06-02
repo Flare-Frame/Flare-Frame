@@ -13,13 +13,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.ArrowBackIosNew
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -57,7 +55,7 @@ fun MediaPreviewScreen(
     )
     val gradientColors =
         listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)
-    val brush = remember { Brush.linearGradient(colors = gradientColors) }
+    remember { Brush.linearGradient(colors = gradientColors) }
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -65,12 +63,16 @@ fun MediaPreviewScreen(
     ) {
         Text(
             text = "Image Preview",
-            modifier = Modifier.padding(top=50.dp, bottom=80.dp),
+            modifier = Modifier.padding(top = 50.dp, bottom = 80.dp),
             fontWeight = FontWeight.Bold,
             fontSize = 30.sp,
             color = animatedColor
         )
-        OutlinedCard (elevation = CardDefaults.cardElevation(defaultElevation = 10.dp), modifier = Modifier.size(height = 300.dp, width = 300.dp).border(color = animatedColor, width = 3.dp,)) {
+        OutlinedCard(elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+            modifier = Modifier
+                .size(height = 300.dp, width = 300.dp)
+                .border(color = animatedColor, width = 3.dp)
+        ) {
             AsyncImage(
                 model = if (uiState.uploadUri != null) {
                     uiState.uploadUri

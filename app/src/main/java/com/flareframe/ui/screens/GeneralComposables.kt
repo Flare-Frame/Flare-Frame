@@ -2,10 +2,6 @@
 
 package com.flareframe.ui.screens
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.InputTransformation
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
@@ -13,7 +9,6 @@ import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Tag
 import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Home
@@ -23,15 +18,12 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.InputChip
-import androidx.compose.material3.InputChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.OutlinedSecureTextField
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -46,8 +38,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.contentType
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.flareframe.MainActivity.Account
@@ -55,7 +45,6 @@ import com.flareframe.MainActivity.Home
 import com.flareframe.MainActivity.Search
 import com.flareframe.MainActivity.Upload
 import com.flareframe.ui.navBar.BottomNavigationItem
-import io.ktor.http.content.OutgoingContent
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @Composable
@@ -92,7 +81,7 @@ fun HashTagChip(
     modifier: Modifier = Modifier,
 ) {
     InputChip(
-        onClick = {onRemove() },
+        onClick = { onRemove() },
         label = { Text(hashTag) },
         modifier = modifier,
         selected = true,
@@ -110,16 +99,16 @@ fun InputText(
     label: String,
     imageVector: ImageVector?,
     contentType: ContentType,
-    inputState: TextFieldState
-    ) {
+    inputState: TextFieldState,
+) {
     val gradientColors =
         listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)
     val brush = remember { Brush.linearGradient(colors = gradientColors) }
     OutlinedTextField(
-        state =inputState ,
+        state = inputState,
         placeholder = { Text(label) },
         lineLimits = TextFieldLineLimits.SingleLine,  // new way to limit line size
-        modifier = modifier.semantics{this.contentType = contentType},
+        modifier = modifier.semantics { this.contentType = contentType },
         textStyle = TextStyle(brush = brush),
         trailingIcon = {
             Icon(
@@ -137,21 +126,21 @@ fun PasswordInputText(
     modifier: Modifier = Modifier,
     label: String,
     inputState: TextFieldState,
-     contentType: ContentType
-    ) {
+    contentType: ContentType,
+) {
 
     val gradientColors =
         listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)
     val brush = remember { Brush.linearGradient(colors = gradientColors) }
     OutlinedSecureTextField(
-         state =inputState ,
+        state = inputState,
         placeholder = { Text(label) },
-        modifier = modifier.semantics{contentType},
+        modifier = modifier.semantics { contentType },
         textStyle = TextStyle(brush = brush),
         // this is how to give it the look of a password
 
 
-        )
+    )
 }
 
 @ExperimentalSerializationApi

@@ -2,7 +2,6 @@ package com.flareframe.repositories
 
 import com.flareframe.datasources.UserRemoteDataSource
 import com.flareframe.models.User
-import retrofit2.Response
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor( private val userRemoteDataSource: UserRemoteDataSource): UserRepository {

@@ -2,7 +2,6 @@ package com.flareframe.ui.states
 
 import android.graphics.Bitmap
 import android.net.Uri
-import com.flareframe.models.Tags
 
 data class UploadPost(
     val pictureTaken: Bitmap? = null,

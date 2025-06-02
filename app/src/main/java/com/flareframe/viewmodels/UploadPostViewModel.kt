@@ -129,7 +129,7 @@ class UploadPostViewModel @Inject constructor(
             Log.d("Upload","There is no image.")
             return
         }
-        val post: Post = Post(
+        val post = Post(
             archived = false,
             hideTags = false,
             username = userState.username,
