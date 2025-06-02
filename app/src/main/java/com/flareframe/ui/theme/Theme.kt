@@ -1,16 +1,11 @@
 package com.flareframe.ui.theme
 
-import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     primary = Color(0xFFFF7043),
@@ -57,13 +52,13 @@ val SupabaseLightColors = lightColorScheme(
     primary = Color(0xFF3ECF8E),
     secondary = Color(0xFF00A97F),
     background = Color(0xFFF8F9FA),
-   onPrimary = Color.White,
-   primaryContainer = Color(0xFFB2F0D1),
+    onPrimary = Color.White,
+    primaryContainer = Color(0xFFB2F0D1),
     onPrimaryContainer = Color(0xFF004D40),
 
     onSecondary = Color.White,
-   secondaryContainer = Color(0xFFA7F3D0),
-   onSecondaryContainer = Color(0xFF00382B),
+    secondaryContainer = Color(0xFFA7F3D0),
+    onSecondaryContainer = Color(0xFF00382B),
     onBackground = Color(0xFF212529),
 
     surface = Color.White,
@@ -77,8 +72,8 @@ val SupabaseDarkColors = darkColorScheme(
     primary = Color(0xFF20C997),
     secondary = Color(0xFF009578),
     background = Color(0xFF121212),
- onPrimary = Color.Black,
-     primaryContainer = Color(0xFF007B5E),
+    onPrimary = Color.Black,
+    primaryContainer = Color(0xFF007B5E),
     onPrimaryContainer = Color.White,
 
 
@@ -135,13 +130,14 @@ val PinkPurpleDarkColors = darkColorScheme(
     error = Color(0xFFCF6679),
     onError = Color.Black
 )
+
 @Composable
 fun FlareFrameTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     // Automatically picks dark or light based on system setting
-    val colorScheme = if (darkTheme) PinkPurpleDarkColors else PinkPurpleLightColors
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,
