@@ -24,6 +24,8 @@ class UserRepositoryImpl @Inject constructor( private val userRemoteDataSource: 
     override suspend fun updateUsername(newUsername: String,currentUsername:String): Result<User> {
         return userRemoteDataSource.updateUsername(newUsername,currentUsername)
     }
-
+    override suspend fun fetchUserWithEmail(email: String): User? {
+        return userRemoteDataSource.fetchUserWithEmail(email)
+    }
 
 }

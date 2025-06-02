@@ -9,6 +9,13 @@ data class UploadPost(
     val uploadUri: Uri? = null, // use viewmodel to display tags
     val hideTags:Boolean = false,  // use a switch to toggle this value
     val currentTag:String = "",
+
+    val tagErrorMessage:String = "",
+    val captionErrorMessage:String = "",
+    val pictureErrorMessage:String = "",
+    val errorMessage:String = "",
+
+    val isUploaded: Boolean = false,
     val isLoading:Boolean = false,
     val caption:String  = ""
     )

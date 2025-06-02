@@ -93,6 +93,10 @@ fun AppScaffold(
     val showBottomBar = when (currentDestination?.route) {
         Login::class.qualifiedName,
         Register::class.qualifiedName,
+        Upload::class.qualifiedName,
+        MediaPreview::class.qualifiedName,
+        CameraScreen::class.qualifiedName,
+        Loading::class.qualifiedName
             -> false
 
         else -> true
@@ -151,7 +155,9 @@ fun AppScaffold(
                 UploadScreen(
                     modifier = Modifier.fillMaxSize(),
                     viewModel = uploadPostViewModel,
-                    onOpenCamera = { navController.navigate(CameraScreen) }
+                    onOpenCamera = { navController.navigate(CameraScreen) },
+                    onPostUploaded = {navController.navigate(Home)},
+                    userState = userState
                     )
             }
             composable<CameraScreen> {

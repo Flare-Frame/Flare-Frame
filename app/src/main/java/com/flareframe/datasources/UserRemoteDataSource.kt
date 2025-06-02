@@ -65,6 +65,20 @@ class UserRemoteDataSource @Inject constructor(private val supabaseClient: Supab
         }
     }
 
+    override suspend fun fetchUserWithEmail(email: String): User? {
+        return try {
+            supabaseClient.postgrest.from("User").select {
+
+                eq("Email", email)
+
+            }.decodeSingle<User>()
+
+        } catch (e: Exception) {
+            Log.w("User", "Unable to fetch user with email: $email")
+            null
+        }
+    }
+
     override suspend fun fetchUserWithUUID(uuId: String): User? {
         return try {
             supabaseClient.postgrest.from("User").select {

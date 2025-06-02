@@ -24,6 +24,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType
+import androidx.compose.ui.platform.LocalAutofillManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,9 +34,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.flareframe.SnackbarController
 import com.flareframe.SnackbarEvent
 import com.flareframe.ui.screens.AppButton
-import com.flareframe.ui.screens.AuthInputText
-
-import com.flareframe.ui.screens.PassworInputText
+import com.flareframe.ui.screens.InputText
+import com.flareframe.ui.screens.PasswordInputText
 import com.flareframe.ui.states.RegisterUiState
 import com.flareframe.viewmodels.RegistrationViewModel
 
@@ -45,7 +46,7 @@ fun RegisterScreen(
     viewModel: RegistrationViewModel = hiltViewModel(),
     onNavigateToLogin: () -> Unit,
 
-) {
+    ) {
     val uiState: RegisterUiState by viewModel.uiState.collectAsStateWithLifecycle()
     val infiniteTransition = rememberInfiniteTransition(label = "infinite transition")
     val animatedColor by infiniteTransition.animateColor(
@@ -54,7 +55,7 @@ fun RegisterScreen(
         animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
         label = "color"
     )
-
+    val autofillManager = LocalAutofillManager.current
     Box(modifier.fillMaxSize()) {
 
         if (uiState.inProgress)
@@ -65,12 +66,13 @@ fun RegisterScreen(
 
         LaunchedEffect(uiState.isRegistered) {
             // show a snack bar
+            autofillManager?.commit()
             SnackbarController.sendEvent(
                 event = SnackbarEvent(
                     message = "You have successfully registered"
                 )
             )
-      viewModel.resetState()
+            viewModel.resetState()
             onNavigateToLogin()
         }
     }
@@ -99,52 +101,44 @@ fun RegisterScreen(
             fontSize = 30.sp,
             color = animatedColor,
         )
-        AuthInputText(
+        InputText(
             modifier = Modifier
                 .fillMaxWidth(0.78f)
                 .padding(bottom = 15.dp),
-            text = uiState.username,
-            onTextUpdate = { newText ->
-                viewModel.updateUsername(newText)
-            },
+
             label = "Username",
             imageVector = Icons.Outlined.AccountCircle,
+            contentType = ContentType.NewUsername,
+            inputState = viewModel.username,
+        )
 
-            )
-
-        AuthInputText(
+        InputText(
             modifier = Modifier
                 .fillMaxWidth(0.78f)
                 .padding(bottom = 15.dp),
-            text = uiState.email,
-            onTextUpdate = { newText ->
-                viewModel.updateEmail(newText)
-            },
+
             label = "Email",
             imageVector = Icons.Outlined.AccountCircle,
-
-            )
-        PassworInputText(
+            contentType = ContentType.EmailAddress,
+            inputState = viewModel.email,
+        )
+        PasswordInputText(
             modifier = Modifier
                 .fillMaxWidth(0.78f)
                 .padding(bottom = 15.dp),
-            text = uiState.password,
-            onTextUpdate = { newText ->
-                viewModel.updatePassword(newText)
-            },
-            label = "Password",
 
-            )
-        PassworInputText(
+            label = "Password",
+            contentType = ContentType.NewPassword,
+            inputState = viewModel.password,
+        )
+        PasswordInputText(
             modifier = Modifier
                 .fillMaxWidth(0.78f)
                 .padding(bottom = 40.dp),
-            text = uiState.confirmPassword,
-            onTextUpdate = { newText ->
-                viewModel.updateConfirmPassword(newText)
-            },
-            label = "Confirm Password",
 
+            label = "Confirm Password",
+            contentType = ContentType.Password,
+            inputState = viewModel.confirmPassword,
 
             )
         AppButton(

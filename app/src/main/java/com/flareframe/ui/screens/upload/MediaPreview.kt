@@ -5,25 +5,33 @@ import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.twotone.ArrowBackIosNew
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -45,7 +53,11 @@ fun MediaPreviewScreen(
         targetValue = MaterialTheme.colorScheme.secondary,
         animationSpec = infiniteRepeatable(tween(1000), RepeatMode.Reverse),
         label = "color"
+
     )
+    val gradientColors =
+        listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary)
+    val brush = remember { Brush.linearGradient(colors = gradientColors) }
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,23 +70,24 @@ fun MediaPreviewScreen(
             fontSize = 30.sp,
             color = animatedColor
         )
+        OutlinedCard (elevation = CardDefaults.cardElevation(defaultElevation = 10.dp), modifier = Modifier.size(height = 300.dp, width = 300.dp).border(color = animatedColor, width = 3.dp,)) {
+            AsyncImage(
+                model = if (uiState.uploadUri != null) {
+                    uiState.uploadUri
+                } else if (uiState.pictureTaken != null) {
+                    uiState.pictureTaken
+                } else {
+                    Text(
+                        text = "There is nothing to display here"
+                    )
 
-        AsyncImage(
-            model = if (uiState.uploadUri != null) {
-                uiState.uploadUri
-            } else if (uiState.pictureTaken != null) {
-                uiState.pictureTaken
-            } else {
-                Text(
-                    text = "There is nothing to display here"
-                )
-
-            },
-            contentDescription = null,
-            modifier = Modifier
-                .size(320.dp),
-            contentScale = ContentScale.Crop
-        )
+                },
+                contentDescription = null,
+                modifier = Modifier
+                    .aspectRatio(1f),
+                contentScale = ContentScale.Crop
+            )
+        }
         Spacer(modifier = Modifier.padding(vertical = 50.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -86,7 +99,7 @@ fun MediaPreviewScreen(
                 onBackToCamera()
             }) {
                 Icon(Icons.TwoTone.ArrowBackIosNew, "Back to camera")
-                Text(text = "Back to Camera")
+
             }
             FilledTonalButton(onClick = { onNavigateToUpload() }) { Text(text = "Continue") }
         }

@@ -1,59 +1,85 @@
 package com.flareframe.viewmodels
 
 import android.util.Log
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.clearText
+import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.flareframe.repositories.AuthRepository
+import com.flareframe.repositories.UserRepository
 import com.flareframe.ui.states.LoginState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 @HiltViewModel
-public class LoginViewModel @Inject constructor(private val authRepository: AuthRepository): ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    val userRepository: UserRepository,
+) : ViewModel() {
     val _uiState = MutableStateFlow(LoginState())
     val uiState: StateFlow<LoginState> = _uiState.asStateFlow()
-    fun onEmailValueChange(email: String) {
-        _uiState.update { currentState ->
-            currentState.copy(email = email)
-        }
-    }
-
-    fun onPasswordValueChange(password: String) {
-        _uiState.update { currentState ->
-            currentState.copy(password = password)
-        }
-    }
+    val username = TextFieldState()
+    val password=TextFieldState()
+    val email=TextFieldState()
 
 
+
+    // make sure to authenticate it exists with the username in supabase
     fun onLogin() {
-        _uiState.update { currentState ->
-            currentState.copy(inProgress = true)
-        }
-        authRepository.LogIn(
-            email = _uiState.value.email,
-            password = _uiState.value.password
-        ) { task ->
-            if (task.isSuccessful) {
-                Log.d("login", "User has successfully logged in")
-                _uiState.update { currentState ->
-                    currentState.copy( inProgress = false)
-                }
-            } else {
-                Log.w("login", "Failed to log in to flare frame", task.exception)
+        viewModelScope.launch {
+            _uiState.update { currentState ->
+                currentState.copy(inProgress = true)
+            }
+            val user = userRepository.fetchUserWithEmail(email = email.toString())
+            if (user == null) {
+                email.clearText()
+                password.clearText()
                 _uiState.update { currentState ->
                     currentState.copy(
-                        email = "",
-                        password = "",
                         inProgress = false,
 
                         errorMessage = "Incorrect username or password"
                     )
                 }
+                return@launch                            
             }
+            authRepository.LogIn(
+                email = email.toString(),
+                password = password.toString()
+            ) { task ->
+                if (task.isSuccessful) {
+                    Log.d("login", "User has successfully logged in")
 
+                    _uiState.update { currentState ->
+                        currentState.copy(inProgress = false)
+                    }
+                } else {
+                    Log.w("login", "Failed to log in to flare frame", task.exception)
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            inProgress = false,
+                            errorMessage = "Incorrect username or password"
+                        )
+                    }
+                    email.clearText()
+                    password.clearText()
+                }
+
+            }
         }
     }
 
+    fun resetState() {
+        email.clearText()
+        password.clearText()
+        _uiState.update { currentState ->
+            currentState.copy( errorMessage = "")
+        }
+    }
 }

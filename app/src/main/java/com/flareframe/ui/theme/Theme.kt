@@ -141,7 +141,7 @@ fun FlareFrameTheme(
     content: @Composable () -> Unit
 ) {
     // Automatically picks dark or light based on system setting
-    val colorScheme = if (darkTheme) PinkPurpleDarkColors else PinkPurpleLightColors
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,
