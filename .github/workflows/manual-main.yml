@@ -1,6 +1,9 @@
 name: Generated APK AAB (Upload - Create Artifact To Github Action)
 
 # Define environment variables used throughout the workflow
+permissions:
+  contents: read
+  actions: read
 env:
   main_project_module: app # The name of the main module repository
   playstore_name: Flare-Frame # The name of the Play Store app (only for naming artifacts)
