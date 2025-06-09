@@ -9,6 +9,9 @@ on:
     branches: [main]      # …against main
   workflow_dispatch:      # Allow manual triggering anytime
 
+permissions:
+  contents: read
+
 jobs:
   release-build:
     name: Build Release + Debug Artifacts
