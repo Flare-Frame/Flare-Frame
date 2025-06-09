@@ -1,0 +1,17 @@
+version: 2
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/" # Root of your repository
+    schedule:
+      interval: "weekly" # Options: daily, weekly, monthly
+    open-pull-requests-limit: 5
+    pull-request-branch-name:
+      separator: "-"
+    commit-message:
+      prefix: "[Gradle Update]"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "gradle"
+    reviewers:
+      - Shravan Ramjathan
