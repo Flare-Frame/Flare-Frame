@@ -1,4 +1,6 @@
 name: Build and Test on Push (All Branches Except Main)
+permissions:
+  contents: read
 
 on:
   push:
