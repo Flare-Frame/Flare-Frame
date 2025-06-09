@@ -73,7 +73,7 @@ dependencies {
     // Jetpack Compose integration
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
      // below is for icons
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     // this will allow us to create .await() on the functions
