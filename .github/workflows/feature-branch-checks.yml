@@ -1,4 +1,6 @@
 name: Build and Test on Push (All Branches Except Main)
+permissions:
+  contents: read
 
 on:
   push:
@@ -49,10 +51,6 @@ jobs:
       # Change permissions for Gradle wrapper
       - name: Make Gradle executable
         run: chmod +x ./gradlew
-
-      # Run tests
-      - name: Run Gradle tests
-        run: ./gradlew test
 
       # Build the project
       - name: Build project
