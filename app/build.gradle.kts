@@ -53,7 +53,7 @@ hilt {
 }
 dependencies {
     val ktorVersion = "2.3.9"
-    val supabaseVersion = "0.8.0"
+    val supabaseVersion = "3.1.4"
     val composeBom = platform("androidx.compose:compose-bom:2025.05.00")
     implementation(composeBom)
     implementation("androidx.compose.material3:material3:1.4.0-alpha11")
