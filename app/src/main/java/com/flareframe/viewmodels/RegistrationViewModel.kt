@@ -95,8 +95,8 @@ class RegistrationViewModel @Inject constructor(
 
             val email = email.text.toString().trim()
             val username: String = username.text.toString().trim()
-            val password = password.toString()
-            val confirm = confirmPassword.toString()
+            val password = password.text.toString()
+            val confirm = confirmPassword.text.toString() // take note there is a .text
 
             // 1) Your local validation checks…
             if (email.isEmpty() || username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
@@ -107,10 +107,17 @@ class RegistrationViewModel @Inject constructor(
                 updateErrorMessage("Invalid email address"); return@launch
             }
             if (!validateUsername(username)) {
-                updateErrorMessage("Username must have …"); return@launch
+                updateErrorMessage(
+                    "Username must be at least 6 characters long, contain at least one uppercase letter and one number, cannot start with a number, and may only include letters, digits, dots (.), or underscores (_)."
+                )
+                return@launch
             }
+
             if (!validatePassword(password)) {
-                updateErrorMessage("Password must have …"); return@launch
+                updateErrorMessage(
+                    "Password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, and one number. No spaces are allowed."
+                )
+                return@launch
             }
             if (password != confirm) {
                 updateErrorMessage("Passwords do not match!"); return@launch

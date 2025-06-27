@@ -35,7 +35,7 @@ class LoginViewModel @Inject constructor(
             _uiState.update { currentState ->
                 currentState.copy(inProgress = true)
             }
-            val user = userRepository.fetchUserWithEmail(email = email.toString())
+            val user = userRepository.fetchUserWithEmail(email = email.text.toString())
             if (user == null) {
                 email.clearText()
                 password.clearText()
@@ -49,8 +49,8 @@ class LoginViewModel @Inject constructor(
                 return@launch                            
             }
             authRepository.LogIn(
-                email = email.toString(),
-                password = password.toString()
+                email = email.text.toString(),
+                password = password.text.toString()
             ) { task ->
                 if (task.isSuccessful) {
                     Log.d("login", "User has successfully logged in")
