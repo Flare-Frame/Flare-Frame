@@ -68,7 +68,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7") // this is to inject viewmodels
-    val nav_version = "2.8.9"
+    val nav_version = "2.9.0"
 
     // Jetpack Compose integration
     implementation("androidx.navigation:navigation-compose:$nav_version")
